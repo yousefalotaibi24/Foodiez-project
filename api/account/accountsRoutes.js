@@ -42,8 +42,6 @@ router.put(
 );
 // to delete an account accounts/ users by ID
 router.delete("/:accountId", deleteAccountIdController);
-// to delete an account accounts/ users by UserName
-
 // to find an account by ID
 router.get("/:accountId", accountDetailIdController);
 // to find an account by UserName

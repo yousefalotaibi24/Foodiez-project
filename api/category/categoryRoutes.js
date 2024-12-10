@@ -40,12 +40,8 @@ router.put(
   upload.single("image"),
   updateCategoryByIdController
 );
-// to Update an Category by Name
-
 // to delete an Category by ID
 router.delete("/:categoryId", deleteCategoryIdController);
-// to delete an Category Name
-
 // to find an Category by ID
 router.get("/:categoryId", categoryDetailIdController);
 // to find an Category by Name

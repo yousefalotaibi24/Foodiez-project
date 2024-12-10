@@ -20,7 +20,6 @@ exports.creatCategoryController = (req, res) => {
     console.log(e.message);
   }
 }; 
-
 // ----------------------------------------------------------------
 // to get all categories Fetch Get
 exports.listCategoriesController = async (req, res) => {
@@ -32,7 +31,6 @@ exports.listCategoriesController = async (req, res) => {
     console.log(e.message);
   }
 }; 
-
 // ----------------------------------------------------------------
 // to find a category
 // to find an category by ID
@@ -58,7 +56,6 @@ exports.categoryDetailNameController = (req, res) => {
     res.status(404).json();
   }
 }; 
-
 // ----------------------------------------------------------------
 // to update a categories
 // by ID
@@ -80,9 +77,6 @@ exports.updateCategoryByIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-// By name of Category
-
-
 // ----------------------------------------------------------------
 // to delete a categories
 //by ID
@@ -101,7 +95,5 @@ exports.deleteCategoryIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-//by Name of Controller
-
 // ----------------------------------------------------------------
 //END of Controller

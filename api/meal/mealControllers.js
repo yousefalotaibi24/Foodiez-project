@@ -21,7 +21,6 @@ exports.creatMealController = (req, res) => {
     console.log(e.message);
   }
 }; 
-
 // ----------------------------------------------------------------
 // to get all Meals List
 exports.listMealController = async (req, res) => {
@@ -32,7 +31,6 @@ exports.listMealController = async (req, res) => {
     res.status(500).json(error);
   }
 };
-
 // ----------------------------------------------------------------
 // to find Meal
 // by ID
@@ -57,7 +55,7 @@ exports.mealDetailNameController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // check we can use NAME same as in Categopries
+}; 
 // by creater of Meal
 exports.mealDetailCreaterController = (req, res) => {
   const { mealCreater } = req.params;
@@ -70,8 +68,7 @@ exports.mealDetailCreaterController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // check we can use NAME same as in Categopries
-
+}; 
 // ----------------------------------------------------------------
 // to update a Meal
 // by ID
@@ -93,8 +90,6 @@ exports.updateMealByIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-// By name of Meal
-
 // ----------------------------------------------------------------
 // to delete a Meal
 //by ID
@@ -113,8 +108,5 @@ exports.deleteMealIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-//by Name of Controller
-
-
 // ----------------------------------------------------------------
 //END of Controller

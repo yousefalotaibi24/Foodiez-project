@@ -42,12 +42,8 @@ router.put(
   upload.single("image"),
   updateIngredientByIdController
 );
-// to Update an Ingredients by Name
-
 // to delete an Ingredients by ID
 router.delete("/:ingredientId", deleteIngredientIdController);
-// to delete an Ingredients by name
-
 // to find an Ingredients by ID
 router.get("/:ingredientId", ingredientDetailIdController);
 // to find an Ingredients by Name

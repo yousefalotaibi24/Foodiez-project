@@ -21,7 +21,6 @@ exports.creatAccountController = (req, res) => {
     console.log(e.message);
   }
 }; 
-
 // ----------------------------------------------------------------
 // to get all accounts/ users Fetch Get
 exports.listAccountsController = async (req, res) => {
@@ -32,7 +31,6 @@ exports.listAccountsController = async (req, res) => {
     res.status(500).json(error);
   }
 }; 
-
 // ----------------------------------------------------------------
 // to Find an Account
 // to find an account by ID
@@ -58,7 +56,6 @@ exports.accountDetailUserController = (req, res) => {
     res.status(404).json();
   }
 }; 
-
 // ----------------------------------------------------------------
 // to Update an account accounts/ users
 //by ID
@@ -80,7 +77,6 @@ exports.updateAccountController = async (req, res) => {
     console.log(e.message);
   }
 };
-
 // ----------------------------------------------------------------
 // to delete an account accounts/ users
 // Delete by ID
@@ -99,7 +95,5 @@ exports.deleteAccountIdController = async (req, res) => {
     console.log(e.message);
   }
 }; 
-// Delete by Username
-
 // ----------------------------------------------------------------
 //END of Controller

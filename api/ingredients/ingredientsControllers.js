@@ -16,7 +16,6 @@ exports.createIngredientController = async (req, res) => {
     console.log(e.message);
   }
 }; // to check.save works
-
 // ----------------------------------------------------------------
 // to get all ingredients List
 exports.listIngredientsController = async (req, res) => {
@@ -27,7 +26,6 @@ exports.listIngredientsController = async (req, res) => {
     res.status(500).json(error);
   }
 };
-
 // ----------------------------------------------------------------
 // to Find an ingredient
 // by ID
@@ -53,7 +51,6 @@ exports.ingredientDetailNameController = (req, res) => {
     res.status(404).json();
   }
 }; // check we can use NAME same as in Categopries
-
 // ----------------------------------------------------------------
 // to Update a  ingredient
 //by ID
@@ -75,8 +72,6 @@ exports.updateIngredientByIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-// by name
-
 // ----------------------------------------------------------------
 // to Delete an Ingredient
 //by ID
@@ -95,7 +90,5 @@ exports.deleteIngredientIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-// by Name
-
 // ----------------------------------------------------------------
 //END of Controller

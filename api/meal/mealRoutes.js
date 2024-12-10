@@ -36,12 +36,8 @@ router.get("/", listMealController);
 router.post("/", upload.single("image"), creatMealController);
 // to Update an Meal  by ID
 router.put("/:mealId", upload.single("image"), updateMealByIdController);
-// to Update an Meal by Name
-
 // to delete an Meal by ID
 router.delete("/:mealId", deleteMealIdController);
-// to delete an Meal by name
-
 // to find an Meal by ID
 router.get("/:mealId", mealDetailsIdController);
 // to find an Meal by Name
