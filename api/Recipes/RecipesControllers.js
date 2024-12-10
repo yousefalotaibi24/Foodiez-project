@@ -78,7 +78,7 @@ exports.updateRecipesByIdController = async (req, res) => {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
     }
     const { RecipesId } = req.params;
-    const foundRecipes = await Category.findById(RecipesId);
+    const foundRecipes = await Recipes.findById(RecipesId);
     if (foundRecipes) {
       await foundRecipes.updateOne(req.body);
       res.status(202).json();
@@ -96,7 +96,7 @@ exports.updateRecipesByIdController = async (req, res) => {
 exports.deleteRecipesIdController = async (req, res) => {
   try {
     const { RecipesId } = req.params;
-    const foundRecipes = await Category.findById(RecipesId);
+    const foundRecipes = await Recipes.findById(RecipesId);
     if (foundRecipes) {
       await foundRecipes.deleteOne();
       res.status(204).end();
