@@ -25,8 +25,8 @@ exports.creatRecipesController = (req, res) => {
 // to get all Recipess List
 exports.listRecipesController = async (req, res) => {
   try {
-    const Recipess = await Recipes.find();
-    res.status(200).json(Recipess);
+    const recipess = await Recipes.find();
+    res.status(200).json(recipess);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -36,9 +36,9 @@ exports.listRecipesController = async (req, res) => {
 // by ID
 exports.RecipesDetailsIdController = async (req, res) => {
   const { RecipesId } = req.params;
-  const Recipes = await Recipes.findById(RecipesId);
-  if (Recipes) {
-    res.status(200).json(Recipes);
+  const recipes = await Recipes.findById(RecipesId);
+  if (recipes) {
+    res.status(200).json(recipes);
   } else {
     res.status(404).json();
   }
