@@ -1,5 +1,5 @@
 // this controller is created to add/Modify/Read a new Ingredient
-const Ingredients = require("../models/Ingredients");
+const Ingredients = require("../../models/Ingredients");
 
 // to get all ingredients Lisy
 exports.listIngredientsController = async (req, res) => {

@@ -1,5 +1,5 @@
 // this controller is created to add/Modify/Read a new Categoray
-const Category = require("../models/Category");
+const Category = require("../../models/Category");
 
 // to get all categories Fetch Get
 exports.listCategoriesController = async (req, res) => {

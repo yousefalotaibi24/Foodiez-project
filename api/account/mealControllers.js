@@ -1,6 +1,6 @@
 // with Abdullah
 
-const Meal = require("../models/Meal");
+const Meal = require("../../models/Meal");
 
 // to get all Meals List
 exports.listMealController = async (req, res) => {
