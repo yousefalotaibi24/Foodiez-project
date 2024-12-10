@@ -1,28 +1,32 @@
-// this controller is created to add/Modify/Read a new Account
+// This Controller's function is to Create/Retrieve/Update an Account
 
 const Account = require("../../models/Account");
 
 // ----------------------------------------------------------------
-//to creat a new Account
-const creatNewAccount = async (newAccountData) => {
+
+// Create A New Account
+
+const createNewAccount = async (newAccountData) => {
   console.log("Creating new Account", newAccountData);
   const newAccount = await Account.create(newAccountData);
   return newAccount;
-}; 
-exports.creatAccountController = (req, res) => {
+};
+exports.createAccountController = (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; 
     }
-    const newAccount = creatNewAccount(req.body);
+    const newAccount = createNewAccount(req.body);
     res.status(201).json(newAccount);
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; 
+};
 // ----------------------------------------------------------------
-// to get all accounts/ users Fetch Get
+
+// Retrieve all Accounts
+
 exports.listAccountsController = async (req, res) => {
   try {
     const accounts = await Account.find();
@@ -30,10 +34,11 @@ exports.listAccountsController = async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-}; 
+};
 // ----------------------------------------------------------------
-// to Find an Account
-// to find an account by ID
+
+// Retrieve an Account's Detail by ID
+
 exports.accountDetailIdController = async (req, res) => {
   const { accountId } = req.params;
   const account = await Account.findById(accountId);
@@ -42,8 +47,10 @@ exports.accountDetailIdController = async (req, res) => {
   } else {
     res.status(404).json();
   }
-}; 
-// to find an account by UserName
+};
+
+// Retrieve an Account's Detail by Username
+
 exports.accountDetailUserController = (req, res) => {
   const { userName } = req.params;
   const name = Account.find(
@@ -55,14 +62,16 @@ exports.accountDetailUserController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; 
+};
+
 // ----------------------------------------------------------------
-// to Update an account accounts/ users
-//by ID
+
+// Update an Account by ID
+
 exports.updateAccountController = async (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const { accountId } = req.params;
     const foundAccount = await Account.findById(accountId);
@@ -70,16 +79,17 @@ exports.updateAccountController = async (req, res) => {
       await foundAccount.updateOne(req.body);
       res.status(200).json();
     } else {
-      res.status(404).json("not found");
+      res.status(404).json("Account ID not found");
     }
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
   }
 };
+
 // ----------------------------------------------------------------
-// to delete an account accounts/ users
-// Delete by ID
+
+// Delete Account by ID
 exports.deleteAccountIdController = async (req, res) => {
   try {
     const { accountId } = req.params;
@@ -94,6 +104,6 @@ exports.deleteAccountIdController = async (req, res) => {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; 
-// ----------------------------------------------------------------
+};
+
 //END of Controller
