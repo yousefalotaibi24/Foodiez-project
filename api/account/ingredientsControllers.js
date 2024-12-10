@@ -1,7 +1,8 @@
-// with yousef
-const e = require("express");
+// this controller is created to add/Modify/Read a new Ingredient
 const Ingredients = require("../models/Ingredients");
-exports.listIngredients = async (req, res) => {
+
+// to get all ingredients Lisy
+exports.listIngredientsController = async (req, res) => {
   try {
     const ingredients = await Ingredients.find();
     res.status(200).json(ingredients);
@@ -9,7 +10,10 @@ exports.listIngredients = async (req, res) => {
     res.status(500).json(error);
   }
 };
-exports.ingredientDetail = async (req, res) => {
+
+// to Find an ingredient
+// by ID
+exports.ingredientDetailIdController = async (req, res) => {
   const { ingredientId } = req.params;
   const ingredient = await Ingredients.findById(ingredientId);
   if (ingredient) {
@@ -18,28 +22,72 @@ exports.ingredientDetail = async (req, res) => {
     res.status(404).json();
   }
 };
-exports.createIngredient = async (req, res) => {
-  const ingredient = new Ingredients(req.body);
-  const savedIngredient = await ingredient.save();
-  res.status(201).json(savedIngredient);
-};
-exports.updateIngredient = async (req, res) => {
-  const { ingredientId } = req.params;
-  const foundIngredient = await Ingredients.findById(ingredientId);
-  if (foundIngredient) {
-    await foundIngredient.updateOne(req.body);
-    res.status(202).json();
+// by name of ingrediant
+exports.ingredientDetailNameController = (req, res) => {
+  const { ingredientName } = req.params;
+  const name = Ingredients.find(
+    (name) => name.ingredientName.toLowerCase() === ingredientName.toLowerCase()
+  );
+  console.log(name);
+  if (name) {
+    res.status(200).json(name);
   } else {
     res.status(404).json();
   }
-};
-exports.deleteIngredient = async (req, res) => {
-  const { ingredientId } = req.params;
-  const foundIngredient = await Ingredients.findById(ingredientId);
-  if (foundIngredient) {
-    await foundIngredient.deleteOne();
-    res.status(204).end();
-  } else {
-    res.status(404).json();
+}; // updated by Abdullah // check we can use NAME same as in Categopries
+
+// to Create a new ingredient
+exports.createIngredientController = async (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const ingredient = new Ingredients(req.body);
+    const savedIngredient = await ingredient.save();
+    res.status(201).json(savedIngredient);
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+}; // to check.save works
+
+// to Update a  ingredient
+//by ID
+exports.updateIngredientByIdController = async (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const { ingredientId } = req.params;
+    const foundIngredient = await Ingredients.findById(ingredientId);
+    if (foundIngredient) {
+      await foundIngredient.updateOne(req.body);
+      res.status(202).json();
+    } else {
+      res.status(404).json("not found");
+    }
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
   }
 };
+// by name
+
+// to Delete an Ingredient
+//by ID
+exports.deleteIngredientIdController = async (req, res) => {
+  try {
+    const { ingredientId } = req.params;
+    const foundIngredient = await Ingredients.findById(ingredientId);
+    if (foundIngredient) {
+      await foundIngredient.deleteOne();
+      res.status(204).end();
+    } else {
+      res.status(404).json("not found");
+    }
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+};
+// by Name

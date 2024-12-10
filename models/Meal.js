@@ -1,13 +1,13 @@
 const { model, Schema } = require("mongoose");
 
-const mealSchema = new Schema({
+const MealSchema = new Schema({
   name: String,
   image: String,
   category: String,
   ingredients: String,
   nutritionFact: String,
   video: String,
-  username: String,
+  creater: String,
 });
 
-module.exports = model("Meal", mealSchema);
+module.exports = model("Meal", MealSchema);

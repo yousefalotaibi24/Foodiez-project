@@ -1,16 +1,20 @@
-// with yousef
-
+// this controller is created to add/Modify/Read a new Categoray
 const Category = require("../models/Category");
-exports.listCategories = async (req, res) => {
+
+// to get all categories Fetch Get
+exports.listCategoriesController = async (req, res) => {
   try {
     const categories = await Category.find();
     res.status(200).json(categories);
-  } catch (error) {
-    res.status(500).json(error);
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
   }
-};
+}; // updated by abdullah
 
-exports.categoryDetail = async (req, res) => {
+// to find a category
+// to find an category by ID
+exports.categoryDetailIdController = async (req, res) => {
   const { categoryId } = req.params;
   const category = await Category.findById(categoryId);
   if (category) {
@@ -19,31 +23,76 @@ exports.categoryDetail = async (req, res) => {
     res.status(404).json();
   }
 };
-
-exports.createCategory = async (req, res) => {
-  const category = new Category(req.body);
-  const savedCategory = await category.save();
-  res.status(201).json(savedCategory);
-};
-
-exports.updateCategory = async (req, res) => {
-  const { categoryId } = req.params;
-  const foundCategory = await Category.findById(categoryId);
-  if (foundCategory) {
-    await foundCategory.updateOne(req.body);
-    res.status(202).json();
+// to find by Category Name
+exports.categoryDetailNameController = (req, res) => {
+  const { categoryName } = req.params;
+  const name = Category.find(
+    (name) => name.categoryName.toLowerCase() === categoryName.toLowerCase()
+  );
+  console.log(name);
+  if (name) {
+    res.status(200).json(name);
   } else {
     res.status(404).json();
   }
-};
+}; // updated by Abdullah
 
-exports.deleteCategory = async (req, res) => {
-  const { categoryId } = req.params;
-  const foundCategory = await Category.findById(categoryId);
-  if (foundCategory) {
-    await foundCategory.deleteOne();
-    res.status(204).end();
-  } else {
-    res.status(404).json();
+// to create a categories
+const creatNewCategory = async (newCategoryData) => {
+  console.log("Creating new Category", newCategoryData);
+  const newCategory = await Category.create(newCategoryData);
+  return newCategory;
+};
+exports.creatCategoryController = (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const newCategory = creatNewCategory(req.body);
+    res.status(201).json(newCategory);
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+}; // updated by Abdullah
+
+// to update a categories
+// by ID
+exports.updateCategoryByIdController = async (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const { categoryId } = req.params;
+    const foundCategory = await Category.findById(categoryId);
+    if (foundCategory) {
+      await foundCategory.updateOne(req.body);
+      res.status(202).json();
+    } else {
+      res.status(404).json("not found");
+    }
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
   }
 };
+// By name of Category
+
+// to delete a categories
+//by ID
+exports.deleteCategoryIdController = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const foundCategory = await Category.findById(categoryId);
+    if (foundCategory) {
+      await foundCategory.deleteOne();
+      res.status(204).end();
+    } else {
+      res.status(404).json("not found");
+    }
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+};
+//by Name of Controller
