@@ -4,7 +4,7 @@ const accountSchema = new Schema({
   username: String,
   name: String,
   password: String,
-  profileImage: String,
+  image: String,
 });
 
 module.exports = model("Account", accountSchema);
