@@ -2,12 +2,13 @@
 
 const Account = require("../../models/Account");
 
+// ----------------------------------------------------------------
 //to creat a new Account
 const creatNewAccount = async (newAccountData) => {
   console.log("Creating new Account", newAccountData);
   const newAccount = await Account.create(newAccountData);
   return newAccount;
-}; // updated by Abdullah
+}; 
 exports.creatAccountController = (req, res) => {
   try {
     if (req.file) {
@@ -19,8 +20,20 @@ exports.creatAccountController = (req, res) => {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; // updated by Abdullah
+}; 
 
+// ----------------------------------------------------------------
+// to get all accounts/ users Fetch Get
+exports.listAccountsController = async (req, res) => {
+  try {
+    const accounts = await Account.find();
+    res.status(200).json(accounts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}; 
+
+// ----------------------------------------------------------------
 // to Find an Account
 // to find an account by ID
 exports.accountDetailIdController = async (req, res) => {
@@ -31,7 +44,7 @@ exports.accountDetailIdController = async (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // updated by Abdullah
+}; 
 // to find an account by UserName
 exports.accountDetailUserController = (req, res) => {
   const { userName } = req.params;
@@ -44,18 +57,9 @@ exports.accountDetailUserController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // updated by Abdullah
+}; 
 
-// to get all accounts/ users Fetch Get
-exports.listAccountsController = async (req, res) => {
-  try {
-    const accounts = await Account.find();
-    res.status(200).json(accounts);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-}; // updated by Abdullah
-
+// ----------------------------------------------------------------
 // to Update an account accounts/ users
 //by ID
 exports.updateAccountController = async (req, res) => {
@@ -77,6 +81,7 @@ exports.updateAccountController = async (req, res) => {
   }
 };
 
+// ----------------------------------------------------------------
 // to delete an account accounts/ users
 // Delete by ID
 exports.deleteAccountIdController = async (req, res) => {
@@ -93,5 +98,8 @@ exports.deleteAccountIdController = async (req, res) => {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; // updated by Abdullah
+}; 
 // Delete by Username
+
+// ----------------------------------------------------------------
+//END of Controller

@@ -1,7 +1,28 @@
-// with Abdullah
+// this controller is created to add/Modify/Read a new Meal
 
 const Meal = require("../../models/Meal");
 
+// ----------------------------------------------------------------
+// to create a New Meal
+const creatNewMeal = async (newMealData) => {
+  console.log("Creating new Category", newMealData);
+  const newMeal = await Category.create(newMealData);
+  return newMeal;
+};
+exports.creatMealController = (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const newMeal = creatNewMeal(req.body);
+    res.status(201).json(newMeal);
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+}; 
+
+// ----------------------------------------------------------------
 // to get all Meals List
 exports.listMealController = async (req, res) => {
   try {
@@ -12,6 +33,7 @@ exports.listMealController = async (req, res) => {
   }
 };
 
+// ----------------------------------------------------------------
 // to find Meal
 // by ID
 exports.mealDetailsIdController = async (req, res) => {
@@ -35,7 +57,7 @@ exports.mealDetailNameController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // updated by Abdullah // check we can use NAME same as in Categopries
+}; // check we can use NAME same as in Categopries
 // by creater of Meal
 exports.mealDetailCreaterController = (req, res) => {
   const { mealCreater } = req.params;
@@ -48,27 +70,9 @@ exports.mealDetailCreaterController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // updated by Abdullah // check we can use NAME same as in Categopries
+}; // check we can use NAME same as in Categopries
 
-// to create a New Meal
-const creatNewMeal = async (newMealData) => {
-  console.log("Creating new Category", newMealData);
-  const newMeal = await Category.create(newMealData);
-  return newMeal;
-};
-exports.creatMealController = (req, res) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
-    }
-    const newMeal = creatNewMeal(req.body);
-    res.status(201).json(newMeal);
-  } catch (e) {
-    res.status(500).json(e.message);
-    console.log(e.message);
-  }
-}; // updated by Abdullah
-
+// ----------------------------------------------------------------
 // to update a Meal
 // by ID
 exports.updateMealByIdController = async (req, res) => {
@@ -91,6 +95,7 @@ exports.updateMealByIdController = async (req, res) => {
 };
 // By name of Meal
 
+// ----------------------------------------------------------------
 // to delete a Meal
 //by ID
 exports.deleteMealIdController = async (req, res) => {
@@ -109,3 +114,7 @@ exports.deleteMealIdController = async (req, res) => {
   }
 };
 //by Name of Controller
+
+
+// ----------------------------------------------------------------
+//END of Controller

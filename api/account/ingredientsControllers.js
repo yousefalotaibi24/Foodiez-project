@@ -1,7 +1,24 @@
 // this controller is created to add/Modify/Read a new Ingredient
 const Ingredients = require("../../models/Ingredients");
 
-// to get all ingredients Lisy
+// ----------------------------------------------------------------
+// to Create a new ingredient
+exports.createIngredientController = async (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const ingredient = new Ingredients(req.body);
+    const savedIngredient = await ingredient.save();
+    res.status(201).json(savedIngredient);
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+}; // to check.save works
+
+// ----------------------------------------------------------------
+// to get all ingredients List
 exports.listIngredientsController = async (req, res) => {
   try {
     const ingredients = await Ingredients.find();
@@ -11,6 +28,7 @@ exports.listIngredientsController = async (req, res) => {
   }
 };
 
+// ----------------------------------------------------------------
 // to Find an ingredient
 // by ID
 exports.ingredientDetailIdController = async (req, res) => {
@@ -34,23 +52,9 @@ exports.ingredientDetailNameController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // updated by Abdullah // check we can use NAME same as in Categopries
+}; // check we can use NAME same as in Categopries
 
-// to Create a new ingredient
-exports.createIngredientController = async (req, res) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
-    }
-    const ingredient = new Ingredients(req.body);
-    const savedIngredient = await ingredient.save();
-    res.status(201).json(savedIngredient);
-  } catch (e) {
-    res.status(500).json(e.message);
-    console.log(e.message);
-  }
-}; // to check.save works
-
+// ----------------------------------------------------------------
 // to Update a  ingredient
 //by ID
 exports.updateIngredientByIdController = async (req, res) => {
@@ -73,6 +77,7 @@ exports.updateIngredientByIdController = async (req, res) => {
 };
 // by name
 
+// ----------------------------------------------------------------
 // to Delete an Ingredient
 //by ID
 exports.deleteIngredientIdController = async (req, res) => {
@@ -91,3 +96,6 @@ exports.deleteIngredientIdController = async (req, res) => {
   }
 };
 // by Name
+
+// ----------------------------------------------------------------
+//END of Controller

@@ -1,6 +1,27 @@
 // this controller is created to add/Modify/Read a new Categoray
 const Category = require("../../models/Category");
 
+// ----------------------------------------------------------------
+// to create a  new categories
+const creatNewCategory = async (newCategoryData) => {
+  console.log("Creating new Category", newCategoryData);
+  const newCategory = await Category.create(newCategoryData);
+  return newCategory;
+};
+exports.creatCategoryController = (req, res) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+    }
+    const newCategory = creatNewCategory(req.body);
+    res.status(201).json(newCategory);
+  } catch (e) {
+    res.status(500).json(e.message);
+    console.log(e.message);
+  }
+}; 
+
+// ----------------------------------------------------------------
 // to get all categories Fetch Get
 exports.listCategoriesController = async (req, res) => {
   try {
@@ -10,8 +31,9 @@ exports.listCategoriesController = async (req, res) => {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; // updated by abdullah
+}; 
 
+// ----------------------------------------------------------------
 // to find a category
 // to find an category by ID
 exports.categoryDetailIdController = async (req, res) => {
@@ -35,27 +57,9 @@ exports.categoryDetailNameController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; // updated by Abdullah
+}; 
 
-// to create a categories
-const creatNewCategory = async (newCategoryData) => {
-  console.log("Creating new Category", newCategoryData);
-  const newCategory = await Category.create(newCategoryData);
-  return newCategory;
-};
-exports.creatCategoryController = (req, res) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
-    }
-    const newCategory = creatNewCategory(req.body);
-    res.status(201).json(newCategory);
-  } catch (e) {
-    res.status(500).json(e.message);
-    console.log(e.message);
-  }
-}; // updated by Abdullah
-
+// ----------------------------------------------------------------
 // to update a categories
 // by ID
 exports.updateCategoryByIdController = async (req, res) => {
@@ -78,6 +82,8 @@ exports.updateCategoryByIdController = async (req, res) => {
 };
 // By name of Category
 
+
+// ----------------------------------------------------------------
 // to delete a categories
 //by ID
 exports.deleteCategoryIdController = async (req, res) => {
@@ -96,3 +102,6 @@ exports.deleteCategoryIdController = async (req, res) => {
   }
 };
 //by Name of Controller
+
+// ----------------------------------------------------------------
+//END of Controller
