@@ -4,13 +4,20 @@ const app = express();
 const port = 8000;
 const path = require("path");
 
-const accountsRouter = require("./apis/accounts/routes"); // this to be checked and changed
+const accountsRouter = require("./api/account/accountsRoutes"); // this to be checked and changed
+const categoryRouter = require("./api/category/categoryRoutes");
+const ingredientsRouter = require("./api/ingredients/ingredientsRoutes");
+const mealRouter = require("./api/meal/mealRoutes");
+
 
 app.use(express.json());
 app.use('/media', 
   express.static(path.join(__dirname, 'media')) // this will give you your path exatly to ur media file
 ); // from notion express to uplode image class to upload image form server
-app.use("/home", accountsRouter) // this one to be checked
+app.use("/accounts", accountsRouter) // this one to be checked
+app.use("/categories", categoryRouter)
+app.use("/ingredients", ingredientsRouter)
+app.use("/meal", mealRouter)
 connectDb();
 
 app.listen(port, () => {
