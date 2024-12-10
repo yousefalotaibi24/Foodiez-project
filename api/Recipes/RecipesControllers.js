@@ -6,7 +6,7 @@ const Recipes = require("../../models/Recipes");
 // to create a New Recipes
 const creatNewRecipes = async (newRecipesData) => {
   console.log("Creating new Category", newRecipesData);
-  const newRecipes = await Category.create(newRecipesData);
+  const newRecipes = await Recipes.create(newRecipesData);
   return newRecipes;
 };
 exports.creatRecipesController = (req, res) => {
