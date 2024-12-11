@@ -11,7 +11,7 @@ const {
   creatRecipesController,
   updateRecipesByIdController,
   deleteRecipesIdController,
-} = require("./RecipesControllers");
+} = require("./recipesControllers");
 // ----------------------------------------------------------------
 
 // to store images

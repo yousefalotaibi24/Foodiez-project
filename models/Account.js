@@ -8,4 +8,4 @@ const accountSchema = new Schema({
   image: String,
 });
 
-module.exports = model("Account", accountSchema);
+module.exports = model("Accounts", accountSchema);

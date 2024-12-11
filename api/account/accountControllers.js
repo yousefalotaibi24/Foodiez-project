@@ -4,7 +4,7 @@ const Account = require("../../models/Account");
 
 // ----------------------------------------------------------------
 
-// Create A New Account
+// Create a new Account
 
 const createNewAccount = async (newAccountData) => {
   console.log("Creating new Account", newAccountData);
@@ -14,7 +14,7 @@ const createNewAccount = async (newAccountData) => {
 exports.createAccountController = (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; 
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const newAccount = createNewAccount(req.body);
     res.status(201).json(newAccount);
@@ -90,6 +90,7 @@ exports.updateAccountController = async (req, res) => {
 // ----------------------------------------------------------------
 
 // Delete Account by ID
+
 exports.deleteAccountIdController = async (req, res) => {
   try {
     const { accountId } = req.params;
@@ -106,4 +107,4 @@ exports.deleteAccountIdController = async (req, res) => {
   }
 };
 
-//END of Controller
+// END of Controller

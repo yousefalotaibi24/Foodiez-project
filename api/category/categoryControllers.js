@@ -1,27 +1,34 @@
-// this controller is created to add/Modify/Read a new Categoray
+// This Controller's function is to Create/Retrieve/Update a Category
+
 const Category = require("../../models/Category");
 
 // ----------------------------------------------------------------
-// to create a  new categories
-const creatNewCategory = async (newCategoryData) => {
+
+// Create a new Category
+
+const createNewCategory = async (newCategoryData) => {
   console.log("Creating new Category", newCategoryData);
   const newCategory = await Category.create(newCategoryData);
   return newCategory;
 };
-exports.creatCategoryController = (req, res) => {
+
+exports.createCategoryController = (req, res) => {
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
     }
-    const newCategory = creatNewCategory(req.body);
+    const newCategory = createNewCategory(req.body);
     res.status(201).json(newCategory);
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; 
+};
+
 // ----------------------------------------------------------------
-// to get all categories Fetch Get
+
+// Retrieve all Categories
+
 exports.listCategoriesController = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -30,10 +37,12 @@ exports.listCategoriesController = async (req, res) => {
     res.status(500).json(e.message);
     console.log(e.message);
   }
-}; 
+};
+
 // ----------------------------------------------------------------
-// to find a category
-// to find an category by ID
+
+// Retrieve Category by ID
+
 exports.categoryDetailIdController = async (req, res) => {
   const { categoryId } = req.params;
   const category = await Category.findById(categoryId);
@@ -43,7 +52,9 @@ exports.categoryDetailIdController = async (req, res) => {
     res.status(404).json();
   }
 };
-// to find by Category Name
+
+// Retrieve Category by Name
+
 exports.categoryDetailNameController = (req, res) => {
   const { categoryName } = req.params;
   const name = Category.find(
@@ -55,10 +66,12 @@ exports.categoryDetailNameController = (req, res) => {
   } else {
     res.status(404).json();
   }
-}; 
+};
+
 // ----------------------------------------------------------------
-// to update a categories
-// by ID
+
+// Update Category by ID
+
 exports.updateCategoryByIdController = async (req, res) => {
   try {
     if (req.file) {
@@ -77,9 +90,11 @@ exports.updateCategoryByIdController = async (req, res) => {
     console.log(e.message);
   }
 };
+
 // ----------------------------------------------------------------
-// to delete a categories
-//by ID
+
+// Delete Category by ID
+
 exports.deleteCategoryIdController = async (req, res) => {
   try {
     const { categoryId } = req.params;
@@ -95,5 +110,5 @@ exports.deleteCategoryIdController = async (req, res) => {
     console.log(e.message);
   }
 };
-// ----------------------------------------------------------------
-//END of Controller
+
+// END of Controller

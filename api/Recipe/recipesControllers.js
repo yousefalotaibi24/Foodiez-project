@@ -1,6 +1,6 @@
 // this controller is created to add/Modify/Read a new Recipes
 
-const Recipes = require("../../models/Recipes");
+const Recipe = require("../../models/Recipe");
 
 // ----------------------------------------------------------------
 // to create a New Recipes
