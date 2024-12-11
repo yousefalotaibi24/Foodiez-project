@@ -4,4 +4,4 @@ const ingredientsSchema = new Schema({
   name: String,
 });
 
-module.exports = model("Ingredients", ingredientsSchema);
+module.exports = model("Ingredient", ingredientsSchema);

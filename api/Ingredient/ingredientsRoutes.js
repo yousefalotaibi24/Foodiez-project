@@ -12,6 +12,17 @@ const {
   deleteIngredientIdController,
 } = require("./ingredientsControllers");
 
+const storage = multer.diskStorage({
+  destination: "./media",
+  filename: (req, file, cb) => {
+    cb(null, `${+new Date()}${file.originalname}`);
+  },
+});
+
+const upload = multer({
+  storage,
+});
+
 // ----------------------------------------------------------------
 
 // Ingredient Routes
@@ -20,7 +31,7 @@ const {
 router.get("/", listIngredientsController);
 
 // Create a new Ingredient
-router.post("/", createIngredientController);
+router.post("/", upload.single("image"), createIngredientController);
 
 // Update an Ingredient by ID
 router.put("/:ingredientId", updateIngredientByIdController);

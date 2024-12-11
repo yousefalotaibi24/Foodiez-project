@@ -11,6 +11,7 @@ const createNewAccount = async (newAccountData) => {
   const newAccount = await Account.create(newAccountData);
   return newAccount;
 };
+
 exports.createAccountController = (req, res) => {
   try {
     if (req.file) {
@@ -23,6 +24,7 @@ exports.createAccountController = (req, res) => {
     console.log(e.message);
   }
 };
+
 // ----------------------------------------------------------------
 
 // Retrieve all Accounts
@@ -35,6 +37,7 @@ exports.listAccountsController = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
 // ----------------------------------------------------------------
 
 // Retrieve an Account's Detail by ID

@@ -15,7 +15,7 @@ const createNewCategory = async (newCategoryData) => {
 exports.createCategoryController = (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const newCategory = createNewCategory(req.body);
     res.status(201).json(newCategory);
