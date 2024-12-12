@@ -2,15 +2,20 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 
+// ----------------------------------------------------------------
+
 // Ingredient Controllers
 const {
   listIngredientsController,
   ingredientDetailIdController,
-  ingredientDetailNameController,
   createIngredientController,
   updateIngredientByIdController,
   deleteIngredientIdController,
 } = require("./ingredientsControllers");
+
+// ----------------------------------------------------------------
+
+// To Store Images
 
 const storage = multer.diskStorage({
   destination: "./media",
@@ -27,22 +32,21 @@ const upload = multer({
 
 // Ingredient Routes
 
+// Create a new Ingredient
+router.post("/", upload.single(""), createIngredientController);
+
 // Retrieve all Ingredients
 router.get("/", listIngredientsController);
-
-// Create a new Ingredient
-router.post("/", upload.single("image"), createIngredientController);
-
-// Update an Ingredient by ID
-router.put("/:ingredientId", updateIngredientByIdController);
-
-// Delete an Ingredient by ID
-router.delete("/:ingredientId", deleteIngredientIdController);
 
 // Retrieve an Ingredient by ID
 router.get("/:ingredientId", ingredientDetailIdController);
 
-// Retrieve an Ingredient by Name
-router.get("/:ingredientName", ingredientDetailNameController);
+// Update an Ingredient by ID
+router.put("/:ingredientId", upload.single(""), updateIngredientByIdController);
+
+// Delete an Ingredient by ID
+router.delete("/:ingredientId", deleteIngredientIdController);
+
+// ----------------------------------------------------------------
 
 module.exports = router;

@@ -7,7 +7,7 @@ const RecipesSchema = new Schema({
   ingredients: String,
   nutritionFact: String,
   video: String,
-  creater: String,
+  creator: String,
 });
 
 module.exports = model("Recipes", RecipesSchema);

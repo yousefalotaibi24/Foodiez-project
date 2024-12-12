@@ -5,7 +5,6 @@ const Ingredient = require("../../models/Ingredient");
 // ----------------------------------------------------------------
 
 // Create a new Ingredient
-
 exports.createIngredientController = async (req, res) => {
   const ingredient = new Ingredient(req.body);
   const newIngredient = await ingredient.save();
@@ -15,7 +14,6 @@ exports.createIngredientController = async (req, res) => {
 // ----------------------------------------------------------------
 
 // Retrieve all Ingredients
-
 exports.listIngredientsController = async (req, res) => {
   try {
     const ingredients = await Ingredient.find();
@@ -25,39 +23,20 @@ exports.listIngredientsController = async (req, res) => {
   }
 };
 
-// ----------------------------------------------------------------
-
 // Retrieve an Ingredient by ID
-
 exports.ingredientDetailIdController = async (req, res) => {
   const { ingredientId } = req.params;
   const ingredient = await Ingredient.findById(ingredientId);
   if (ingredient) {
     res.status(200).json(ingredient);
   } else {
-    res.status(404).json();
-  }
-};
-
-// Retrieve an Ingredient by Name
-
-exports.ingredientDetailNameController = (req, res) => {
-  const { ingredientName } = req.params;
-  const name = Ingredients.find(
-    (name) => name.ingredientName.toLowerCase() === ingredientName.toLowerCase()
-  );
-  console.log(name);
-  if (name) {
-    res.status(200).json(name);
-  } else {
-    res.status(404).json();
+    res.status(404).json("Ingredient ID not found");
   }
 };
 
 // ----------------------------------------------------------------
 
 // Update an Ingredient by ID
-
 exports.updateIngredientByIdController = async (req, res) => {
   try {
     if (req.file) {
@@ -69,7 +48,7 @@ exports.updateIngredientByIdController = async (req, res) => {
       await foundIngredient.updateOne(req.body);
       res.status(202).json();
     } else {
-      res.status(404).json("not found");
+      res.status(404).json("Ingredient ID not found");
     }
   } catch (e) {
     res.status(500).json(e.message);
@@ -80,7 +59,6 @@ exports.updateIngredientByIdController = async (req, res) => {
 // ----------------------------------------------------------------
 
 // Delete an Ingredient by ID
-
 exports.deleteIngredientIdController = async (req, res) => {
   try {
     const { ingredientId } = req.params;
@@ -89,12 +67,10 @@ exports.deleteIngredientIdController = async (req, res) => {
       await foundIngredient.deleteOne();
       res.status(204).end();
     } else {
-      res.status(404).json("not found");
+      res.status(404).json("Ingredient ID not found");
     }
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
   }
 };
-
-//END of Controller

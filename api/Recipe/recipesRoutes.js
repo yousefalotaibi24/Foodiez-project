@@ -1,49 +1,52 @@
 const express = require("express");
-const multer = require("multer"); // to add images
+const multer = require("multer");
 const router = express.Router();
+
 // ----------------------------------------------------------------
+
+// Recipe Controllers
 
 const {
   listRecipesController,
-  RecipesDetailsIdController,
-  RecipesDetailNameController,
-  RecipesDetailCreaterController,
+  RecipesDetailsController,
   creatRecipesController,
   updateRecipesByIdController,
   deleteRecipesIdController,
 } = require("./recipesControllers");
+
 // ----------------------------------------------------------------
 
-// to store images
+// To Store Images
+
 const storage = multer.diskStorage({
   destination: "./media",
   filename: (req, file, cb) => {
     cb(null, `${+new Date()}${file.originalname}`);
   },
-}); // add this from lesson upload image  multer
+});
 
 const upload = multer({
   storage,
-}); // add this from lesson upload image  multer
+});
 
 // ----------------------------------------------------------------
-// Route List Under this Line
-// ----------------------------------------------------------------
-//Recipes Routs
-// to get all Recipes Fetch Get
-router.get("/", listRecipesController);
-//to creat a new Recipes
+
+// Recipes Routes
+
+// Create a new Recipes
 router.post("/", upload.single("image"), creatRecipesController);
-// to Update an Recipes  by ID
+
+// Retrieve all Recipes
+router.get("/", listRecipesController);
+
+// Retrieve a Recipe by ID
+router.get("/:RecipesId", RecipesDetailsController);
+
+// Update a Recipe by ID
 router.put("/:RecipesId", upload.single("image"), updateRecipesByIdController);
-// to delete an Recipes by ID
+
+// Delete a Recipe by ID
 router.delete("/:RecipesId", deleteRecipesIdController);
-// to find an Recipes by ID
-router.get("/:RecipesId", RecipesDetailsIdController);
-// to find an Recipes by Name
-router.get("/:RecipesName", RecipesDetailNameController);
-// to find an Recipes by Creater
-router.get("/:RecipesCreater", RecipesDetailCreaterController);
 
 // ----------------------------------------------------------------
 

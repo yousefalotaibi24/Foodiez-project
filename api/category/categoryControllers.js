@@ -39,8 +39,6 @@ exports.listCategoriesController = async (req, res) => {
   }
 };
 
-// ----------------------------------------------------------------
-
 // Retrieve Category by ID
 
 exports.categoryDetailIdController = async (req, res) => {
@@ -49,22 +47,7 @@ exports.categoryDetailIdController = async (req, res) => {
   if (category) {
     res.status(200).json(category);
   } else {
-    res.status(404).json();
-  }
-};
-
-// Retrieve Category by Name
-
-exports.categoryDetailNameController = (req, res) => {
-  const { categoryName } = req.params;
-  const name = Category.find(
-    (name) => name.categoryName.toLowerCase() === categoryName.toLowerCase()
-  );
-  console.log(name);
-  if (name) {
-    res.status(200).json(name);
-  } else {
-    res.status(404).json();
+    res.status(404).json("Category ID not found");
   }
 };
 
@@ -72,7 +55,7 @@ exports.categoryDetailNameController = (req, res) => {
 
 // Update Category by ID
 
-exports.updateCategoryByIdController = async (req, res) => {
+exports.updateCategoryController = async (req, res) => {
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
@@ -83,7 +66,7 @@ exports.updateCategoryByIdController = async (req, res) => {
       await foundCategory.updateOne(req.body);
       res.status(202).json();
     } else {
-      res.status(404).json("not found");
+      res.status(404).json("Category ID not found");
     }
   } catch (e) {
     res.status(500).json(e.message);
@@ -103,12 +86,10 @@ exports.deleteCategoryIdController = async (req, res) => {
       await foundCategory.deleteOne();
       res.status(204).end();
     } else {
-      res.status(404).json("not found");
+      res.status(404).json("Category ID not found");
     }
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
   }
 };
-
-// END of Controller

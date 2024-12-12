@@ -38,8 +38,6 @@ exports.listAccountsController = async (req, res) => {
   }
 };
 
-// ----------------------------------------------------------------
-
 // Retrieve an Account's Detail by ID
 
 exports.accountDetailIdController = async (req, res) => {
@@ -48,22 +46,7 @@ exports.accountDetailIdController = async (req, res) => {
   if (account) {
     res.status(200).json(account);
   } else {
-    res.status(404).json();
-  }
-};
-
-// Retrieve an Account's Detail by Username
-
-exports.accountDetailUserController = (req, res) => {
-  const { userName } = req.params;
-  const name = Account.find(
-    (name) => name.username.toLowerCase() === userName.toLowerCase()
-  );
-  console.log(name);
-  if (name) {
-    res.status(200).json(name);
-  } else {
-    res.status(404).json();
+    res.status(404).json("Account ID not found");
   }
 };
 
@@ -102,12 +85,10 @@ exports.deleteAccountIdController = async (req, res) => {
       await foundAccount.deleteOne();
       res.status(204).json();
     } else {
-      res.status(404).json("not found");
+      res.status(404).json("Account ID not found");
     }
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
   }
 };
-
-// END of Controller
