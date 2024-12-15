@@ -33,8 +33,11 @@ const upload = multer({
 
 // Recipes Routes
 
-// Create a new Recipes
+// Create a new Recipe
 router.post("/", upload.single("image"), creatRecipesController);
+
+// Create a new Recipe with Ingredients
+router.post("/:RecipesId/ingredientId", addIngredients);
 
 // Retrieve all Recipes
 router.get("/", listRecipesController);
