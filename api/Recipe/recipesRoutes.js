@@ -12,6 +12,7 @@ const {
   creatRecipesController,
   updateRecipesByIdController,
   deleteRecipesIdController,
+  addIngredients,
 } = require("./recipesControllers");
 
 // ----------------------------------------------------------------

@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
-const JWTStrategy = require("passport-jwt").Strategy;
-const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
-const { JWT_SECRET } = require("./key");
+// const JWTStrategy = require("passport-jwt").Strategy;
+// const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
+// const { JWT_SECRET } = require("./key");
 
 const User = require("./models/Account");
 
@@ -24,3 +24,5 @@ exports.localStrategy = new LocalStrategy(
     }
   }
 );
+
+// exports.jwtStrategy = new this.localStrategy({ jwtFromRequest: fromAuthHeaderAsToken});

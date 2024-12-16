@@ -31,7 +31,7 @@ exports.createCategoryController = (req, res) => {
 
 exports.listCategoriesController = async (req, res) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find().populate("recipe");
     res.status(200).json(categories);
   } catch (e) {
     res.status(500).json(e.message);
@@ -43,11 +43,27 @@ exports.listCategoriesController = async (req, res) => {
 
 exports.categoryDetailIdController = async (req, res) => {
   const { categoryId } = req.params;
-  const category = await Category.findById(categoryId);
+  const category = await Category.findById(categoryId).populate("recipe");
   if (category) {
     res.status(200).json(category);
   } else {
     res.status(404).json("Category ID not found");
+  }
+};
+
+exports.addRecipes = async (req, res, next) => {
+  try {
+    const { recipeId } = req.params;
+    await Course.findByIdAndUpdate(req.course.id, {
+      $push: { students: recipeId },
+    });
+    await Student.findByIdAndUpdate(recipeId, {
+      $push: { courses: req.course.id },
+    });
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
   }
 };
 
