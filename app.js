@@ -13,8 +13,8 @@ const recipesRouter = require("./api/Recipe/recipesRoutes");
 
 app.use(express.json());
 app.use(passport.initialize());
-passport.use(localStrategy);
-passport.use(jwtStrategy);
+// passport.use(localStrategy);
+// passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
 app.use("/accounts", accountsRouter);
 app.use("/categories", categoriesRouter);

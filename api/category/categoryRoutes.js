@@ -9,6 +9,7 @@ const {
   listCategoriesController,
   categoryDetailIdController,
   createCategoryController,
+  addRecipes,
   updateCategoryController,
   deleteCategoryIdController,
 } = require("./categoryControllers");
@@ -34,6 +35,9 @@ const upload = multer({
 
 // Create a new Category
 router.post("/", upload.single(""), createCategoryController);
+
+// Create a new Recipe with Ingredients
+router.post("/:categoryId/RecipesId", addRecipes);
 
 // Retrieve all Categories
 router.get("/", listCategoriesController);

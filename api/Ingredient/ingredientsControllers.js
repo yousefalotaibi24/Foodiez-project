@@ -40,7 +40,7 @@ exports.ingredientDetailIdController = async (req, res) => {
 exports.updateIngredientByIdController = async (req, res) => {
   try {
     if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const { ingredientId } = req.params;
     const foundIngredient = await Ingredient.findById(ingredientId);

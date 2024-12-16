@@ -45,7 +45,9 @@ exports.addIngredients = async (req, res, next) => {
 // Retrieve all Recipes
 exports.listRecipesController = async (req, res) => {
   try {
-    const recipess = await Recipe.find();
+    const recipess = await Recipe.find()
+      .populate("category")
+      .populate("ingredient");
     res.status(200).json(recipess);
   } catch (error) {
     res.status(500).json(error);
@@ -55,7 +57,9 @@ exports.listRecipesController = async (req, res) => {
 // Retrieve Recipe by ID
 exports.RecipesDetailsController = async (req, res) => {
   const { RecipesId } = req.params;
-  const recipes = await Recipe.findById(RecipesId);
+  const recipes = await Recipe.findById(RecipesId)
+    .populate("category")
+    .populate("ingredient");
   if (recipes) {
     res.status(200).json(recipes);
   } else {
@@ -72,8 +76,7 @@ exports.updateRecipesByIdController = async (req, res) => {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const { RecipesId } = req.params;
-    const foundRecipes = await Recipe.findById(RecipesId);
-    if (foundRecipes) {
+    const foundRecipes = await Recipe.findById(RecipesId);    if (foundRecipes) {
       await foundRecipes.updateOne(req.body);
       res.status(202).json();
     } else {
