@@ -8,6 +8,7 @@ const RecipesSchema = new Schema({
   nutritionFact: String,
   video: String,
   creator: String,
+  ingredient: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }],
 });
 
 module.exports = model("Recipes", RecipesSchema);

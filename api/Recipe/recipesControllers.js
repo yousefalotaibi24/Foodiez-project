@@ -24,6 +24,22 @@ exports.creatRecipesController = (req, res) => {
   }
 };
 
+exports.addIngredients = async (req, res, next) => {
+  try {
+    const { ingredientId } = req.params;
+    await Course.findByIdAndUpdate(req.course.id, {
+      $push: { students: ingredientId },
+    });
+    await Student.findByIdAndUpdate(ingredientId, {
+      $push: { courses: req.course.id },
+    });
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 // ----------------------------------------------------------------
 
 // Retrieve all Recipes
