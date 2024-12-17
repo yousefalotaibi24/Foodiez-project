@@ -1,6 +1,7 @@
 // This Controller's function is to Create/Retrieve/Update a Category
 
 const Category = require("../../models/Category");
+const Recipe = require("../../models/Recipe");
 
 // ----------------------------------------------------------------
 
@@ -22,6 +23,18 @@ exports.createCategoryController = (req, res) => {
   } catch (e) {
     res.status(500).json(e.message);
     console.log(e.message);
+  }
+};
+
+exports.addRecipes = async (req, res, next) => {
+  try {
+    const newRecipe = await Recipe.create(req.body);
+    await Recipe.findByIdAndUpdate(req.category.id, {
+      $push: { recipe: newRecipe._id },
+    });
+    res.status(201).json(newRecipe);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -48,22 +61,6 @@ exports.categoryDetailIdController = async (req, res) => {
     res.status(200).json(category);
   } else {
     res.status(404).json("Category ID not found");
-  }
-};
-
-exports.addRecipes = async (req, res, next) => {
-  try {
-    const { recipeId } = req.params;
-    await Course.findByIdAndUpdate(req.course.id, {
-      $push: { students: recipeId },
-    });
-    await Student.findByIdAndUpdate(recipeId, {
-      $push: { courses: req.course.id },
-    });
-
-    res.status(204).end();
-  } catch (error) {
-    next(error);
   }
 };
 
