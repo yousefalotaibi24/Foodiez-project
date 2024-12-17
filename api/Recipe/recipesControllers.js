@@ -1,5 +1,7 @@
 // This Controller's function is to Create/Retrieve/Update a Recipie
 
+const Category = require("../../models/Category");
+const Ingredient = require("../../models/Ingredient");
 const Recipe = require("../../models/Recipe");
 
 // ----------------------------------------------------------------
@@ -11,12 +13,33 @@ const creatNewRecipes = async (newRecipesData) => {
   return newRecipes;
 };
 
-exports.creatRecipesController = (req, res) => {
+exports.creatRecipesController = async (req, res) => {
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
     }
-    const newRecipes = creatNewRecipes(req.body);
+
+    const ingredientIds = [];
+
+    req.body.ingredients.forEach(async (ingredient) => {
+      const foundIngr = await Ingredient.findOne({ name: ingredient });
+      if (foundIngr) {
+        ingredientIds.push(foundIngr._id);
+      } else {
+        const newOne = await Ingredient.create({ name: ingredient });
+        ingredientIds.push(newOne._id);
+      }
+    });
+
+    const newRecipes = creatNewRecipes({
+      ...req.body,
+      ingredients: ingredientIds,
+    });
+
+    await Category.findByIdAndUpdate(req.body.category, {
+      $push: { recipes: newRecipes._id },
+    });
+
     res.status(201).json(newRecipes);
   } catch (e) {
     res.status(500).json(e.message);
@@ -45,10 +68,10 @@ exports.addIngredients = async (req, res, next) => {
 // Retrieve all Recipes
 exports.listRecipesController = async (req, res) => {
   try {
-    const recipess = await Recipe.find()
+    const recipes = await Recipe.find()
       .populate("category")
       .populate("ingredient");
-    res.status(200).json(recipess);
+    res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -76,9 +99,37 @@ exports.updateRecipesByIdController = async (req, res) => {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const { RecipesId } = req.params;
-    const foundRecipes = await Recipe.findById(RecipesId);    if (foundRecipes) {
-      await foundRecipes.updateOne(req.body);
-      res.status(202).json();
+
+    const ingredientIds = [];
+
+    req.body.ingredient.forEach(async (element) => {
+      const foundIngr = await Ingredient.findOne({ name: element });
+      if (foundIngr) {
+        // if (foundIngr.recipe.includes(RecipesId)) {
+
+        ingredientIds.push(foundIngr._id);
+        await foundIngr.updateOne({ $push: { recipe: RecipesId } });
+        // }
+      } else {
+        const newOne = Ingredient({
+          name: element,
+          recipe: [RecipesId],
+        });
+        const savedIngr = await newOne.save();
+        ingredientIds.push(savedIngr._id);
+      }
+      return;
+    });
+
+    const foundRecipes = await Recipe.findById(RecipesId);
+
+    if (foundRecipes) {
+      await foundRecipes.updateOne({
+        ...req.body,
+        ingredient: ingredientIds,
+      });
+
+      res.status(200).json({ ingredientIds });
     } else {
       res.status(404).json("Recipe ID not found");
     }
