@@ -10,6 +10,7 @@ const accountsRouter = require("./api/Account/accountsRoutes");
 const categoriesRouter = require("./api/Category/categoryRoutes");
 const ingredientsRouter = require("./api/Ingredient/ingredientsRoutes");
 const recipesRouter = require("./api/Recipe/recipesRoutes");
+const authRouter = require("./api/auth/authRoutes");
 
 app.use(express.json());
 app.use(passport.initialize());
@@ -20,6 +21,7 @@ app.use("/accounts", accountsRouter);
 app.use("/categories", categoriesRouter);
 app.use("/ingredients", ingredientsRouter);
 app.use("/recipes", recipesRouter);
+app.use("/auth", authRouter);
 connectDb();
 
 app.listen(port, () => {
