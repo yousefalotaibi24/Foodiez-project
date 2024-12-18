@@ -11,17 +11,21 @@ const categoriesRouter = require("./api/Category/categoryRoutes");
 const ingredientsRouter = require("./api/Ingredient/ingredientsRoutes");
 const recipesRouter = require("./api/Recipe/recipesRoutes");
 const authRouter = require("./api/auth/authRoutes");
+const usersRouter = require("./api/users/routes")
 
 app.use(express.json());
 app.use(passport.initialize());
-// passport.use(localStrategy);
-// passport.use(jwtStrategy);
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
 app.use("/accounts", accountsRouter);
-app.use("/categories", categoriesRouter);
-app.use("/ingredients", ingredientsRouter);
-app.use("/recipes", recipesRouter);
 app.use("/auth", authRouter);
+app.use("/api/categories", categoriesRouter);
+app.use("/api/ingredients", ingredientsRouter);
+app.use("/api/recipes", recipesRouter);
+app.use("/api/users", usersRouter)
+
+
 connectDb();
 
 app.listen(port, () => {

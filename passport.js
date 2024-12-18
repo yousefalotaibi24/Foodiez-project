@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
-// const JWTStrategy = require("passport-jwt").Strategy;
-// const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
-// const { JWT_SECRET } = require("./key");
+const JWTStrategy = require("passport-jwt").Strategy;
+const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
+const { JWT_SECRET } = require("./key");
 
-const User = require("./models/Account");
+const User = require("./api/users/models/User");
 
 exports.localStrategy = new LocalStrategy(
   { usernameField: "username" },
@@ -25,4 +25,23 @@ exports.localStrategy = new LocalStrategy(
   }
 );
 
-// exports.jwtStrategy = new this.localStrategy({ jwtFromRequest: fromAuthHeaderAsToken});
+exports.jwtStrategy = new JWTStrategy(
+  {
+    jwtFromRequest: fromAuthHeaderAsBearerToken(),
+    secretOrKey: JWT_SECRET,
+  },
+  async (jwtPayload, done) => {
+    if (Date.now() > jwtPayload.exp) {
+      console.log("jwt expired");
+      return done(null, false);
+    }
+    try {
+      const user = await User.findById(jwtPayload.id);
+      done(null, user);
+    } catch (error) {
+      done(error);
+    }
+  }
+);
+
+// exports.jwtStrategy = new this.localStrategy({ jwtFromRequest: fromAuthHeaderAsBearerToken});
