@@ -1,10 +1,10 @@
-const { model, Schema } = require("mongoose");
+// const { model, Schema } = require("mongoose");
 
-const accountSchema = new Schema({
-  token: String,
-  username: String,
-  password: String,
-  image: String,
-});
+// const accountSchema = new Schema({
+//   token: String,
+//   username: String,
+//   password: String,
+//   image: String,
+// });
 
-module.exports = model("Accounts", accountSchema);
+// module.exports = model("Accounts", accountSchema);
