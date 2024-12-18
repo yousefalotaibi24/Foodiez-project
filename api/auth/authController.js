@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
-const Account = require("../../models/Account");
+const Account = require("../users/models/User");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../keys");
+const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../key");
 
 exports.registerAccount = async (req, res) => {
   const saltRounds = 10;
