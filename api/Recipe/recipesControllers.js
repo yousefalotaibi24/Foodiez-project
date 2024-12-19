@@ -1,22 +1,23 @@
-// This Controller's function is to Create/Retrieve/Update a Recipie
+// This Controller's function is to Create/Retrieve/Update a Recipe
 
 const Recipe = require("../../models/Recipe");
 
 // ----------------------------------------------------------------
 
 // Create a new Recipe
-const creatNewRecipes = async (newRecipesData) => {
+const createNewRecipes = async (newRecipesData) => {
   console.log("Creating new Category", newRecipesData);
   const newRecipes = await Recipe.create(newRecipesData);
   return newRecipes;
 };
 
-exports.creatRecipesController = (req, res) => {
+exports.createRecipesController = async (req, res) => {
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
     }
-    const newRecipes = creatNewRecipes(req.body);
+    req.body.creator = req.user.id; // Add the logged in user's ID as creator
+    const newRecipes = await createNewRecipes(req.body);
     res.status(201).json(newRecipes);
   } catch (e) {
     res.status(500).json(e.message);
@@ -45,10 +46,10 @@ exports.addIngredients = async (req, res, next) => {
 // Retrieve all Recipes
 exports.listRecipesController = async (req, res) => {
   try {
-    const recipess = await Recipe.find()
+    const recipes = await Recipe.find()
       .populate("category")
       .populate("ingredient");
-    res.status(200).json(recipess);
+    res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json(error);
   }
