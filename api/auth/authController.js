@@ -12,7 +12,7 @@ exports.registerAccount = async (req, res) => {
     await account.save();
     const payload = {
       id: account.id,
-      name: account.username,
+      username: account.username,
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
@@ -37,7 +37,7 @@ exports.loginAccount = async (req, res) => {
   const { account } = req;
   const payload = {
     id: account.id,
-    username: account.name,
+    username: account.username,
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
