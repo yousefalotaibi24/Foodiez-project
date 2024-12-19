@@ -8,9 +8,9 @@ const User = require("./api/users/models/User");
 
 exports.localStrategy = new LocalStrategy(
   { usernameField: "username" },
-  async (name, password, done) => {
+  async (username, password, done) => {
     try {
-      const user = await User.findOne({ name });
+      const user = await User.findOne({ username });
       const passwordsMatch = user
         ? await bcrypt.compare(password, user.password)
         : false;
