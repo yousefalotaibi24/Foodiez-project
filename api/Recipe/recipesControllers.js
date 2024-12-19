@@ -50,12 +50,14 @@ exports.createRecipesController = async (req, res) => {
 
 exports.addIngredients = async (req, res, next) => {
   try {
-    const { ingredientId } = req.params;
-    await Course.findByIdAndUpdate(req.course.id, {
-      $push: { students: ingredientId },
+    const { RecipesId } = req.params;
+    const { ingredientId } = req.body;
+
+    await Recipe.findByIdAndUpdate(RecipesId, {
+      $push: { ingredients: ingredientId },
     });
-    await Student.findByIdAndUpdate(ingredientId, {
-      $push: { courses: req.course.id },
+    await Ingredient.findByIdAndUpdate(ingredientId, {
+      $push: { recipe: RecipesId },
     });
 
     res.status(204).end();
