@@ -10,7 +10,6 @@ const { localStrategy, jwtStrategy } = require("./passport");
 const categoriesRouter = require("./api/Category/categoryRoutes");
 const ingredientsRouter = require("./api/Ingredient/ingredientsRoutes");
 const recipesRouter = require("./api/Recipe/recipesRoutes");
-const authRouter = require("./api/auth/authRoutes");
 const usersRouter = require("./api/users/routes");
 
 app.use(cors());
@@ -19,11 +18,10 @@ app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 app.use("/media", express.static(path.join(__dirname, "media")));
-app.use("/auth", authRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/ingredients", ingredientsRouter);
 app.use("/api/recipes", recipesRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/auth", usersRouter);
 
 connectDb();
 

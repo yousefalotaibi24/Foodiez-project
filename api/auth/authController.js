@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const Account = require("../users/models/User");
+const User = require("../users/models/User");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../key");
 
@@ -8,7 +8,7 @@ exports.registerAccount = async (req, res) => {
   req.body.password = await bcrypt.hash(req.body.password, saltRounds);
 
   try {
-    const account = Account(req.body);
+    const account = User(req.body);
     await account.save();
     const payload = {
       id: account.id,
