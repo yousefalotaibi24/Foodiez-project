@@ -16,7 +16,7 @@ exports.createIngredientController = async (req, res) => {
 // Retrieve all Ingredients
 exports.listIngredientsController = async (req, res) => {
   try {
-    const ingredients = await Ingredient.find();
+    const ingredients = await Ingredient.find().populate("recipe");
     res.status(200).json(ingredients);
   } catch (error) {
     res.status(500).json(error);
@@ -26,7 +26,7 @@ exports.listIngredientsController = async (req, res) => {
 // Retrieve an Ingredient by ID
 exports.ingredientDetailIdController = async (req, res) => {
   const { ingredientId } = req.params;
-  const ingredient = await Ingredient.findById(ingredientId);
+  const ingredient = await Ingredient.findById(ingredientId).populate("recipe");
   if (ingredient) {
     res.status(200).json(ingredient);
   } else {

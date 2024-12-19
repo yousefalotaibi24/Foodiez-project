@@ -36,7 +36,7 @@ const upload = multer({
 // Create a new Category
 router.post("/", upload.single(""), createCategoryController);
 
-// Create a new Recipe with Ingredients
+// Create a new Category with recipes
 router.post("/:categoryId/RecipesId", addRecipes);
 
 // Retrieve all Categories

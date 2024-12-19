@@ -1,18 +1,18 @@
 const bcrypt = require("bcrypt");
-const User = require("./models/User");
+const Account = require("../users/models/User");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../key");
 
-exports.registerUser = async (req, res) => {
+exports.registerAccount = async (req, res) => {
   const saltRounds = 10;
   req.body.password = await bcrypt.hash(req.body.password, saltRounds);
 
   try {
-    const user = User(req.body);
-    await user.save();
+    const account = Account(req.body);
+    await account.save();
     const payload = {
-      id: user.id,
-      name: user.username,
+      id: account.id,
+      name: account.username,
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
@@ -23,21 +23,21 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.logoutUser = async (req, res) => {
-  const users = await User.find({ session: `${req.body.token}` });
+exports.logoutAccount = async (req, res) => {
+  const users = await Account.find({ session: `${req.body.token}` });
   if (users.length > 0) {
-    const user = users[0];
-    user.session = null;
-    await user.save();
+    const account = users[0];
+    account.session = null;
+    await account.save();
   }
   res.status(200).json();
 };
 
-exports.loginUser = async (req, res) => {
-  const { user } = req;
+exports.loginAccount = async (req, res) => {
+  const { account } = req;
   const payload = {
-    id: user.id,
-    username: user.name,
+    id: account.id,
+    username: account.name,
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
