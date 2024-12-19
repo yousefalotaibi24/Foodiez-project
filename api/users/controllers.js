@@ -23,15 +23,15 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// exports.logoutUser = async (req, res) => {
-//   const users = await User.find({ session: `${req.body.token}` });
-//   if (users.length > 0) {
-//     const user = users[0];
-//     user.session = null;
-//     await user.save();
-//   }
-//   res.status(200).json();
-// };
+exports.logoutUser = async (req, res) => {
+  const users = await User.find({ session: `${req.body.token}` });
+  if (users.length > 0) {
+    const user = users[0];
+    user.session = null;
+    await user.save();
+  }
+  res.status(200).json();
+};
 
 exports.loginUser = async (req, res) => {
   const { user } = req;
