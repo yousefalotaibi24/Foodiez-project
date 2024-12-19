@@ -1,4 +1,4 @@
-// This Controller's function is to Create/Retrieve/Update a Recipie
+// This Controller's function is to Create/Retrieve/Update a Recipe
 
 const Category = require("../../models/Category");
 const Ingredient = require("../../models/Ingredient");
@@ -7,17 +7,22 @@ const Recipe = require("../../models/Recipe");
 // ----------------------------------------------------------------
 
 // Create a new Recipe
-const creatNewRecipes = async (newRecipesData) => {
+const createNewRecipes = async (newRecipesData) => {
   console.log("Creating new Category", newRecipesData);
   const newRecipes = await Recipe.create(newRecipesData);
   return newRecipes;
 };
 
-exports.creatRecipesController = async (req, res) => {
+
+exports.createRecipesController = async (req, res) => {
   try {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
     }
+
+    req.body.creator = req.user.id; // Add the logged in user's ID as creator
+    
+
 
     const ingredientIds = [];
 
@@ -39,6 +44,7 @@ exports.creatRecipesController = async (req, res) => {
     await Category.findByIdAndUpdate(req.body.category, {
       $push: { recipes: newRecipes._id },
     });
+
 
     res.status(201).json(newRecipes);
   } catch (e) {

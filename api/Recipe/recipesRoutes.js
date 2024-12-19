@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-
+const passport = require("passport");
 // ----------------------------------------------------------------
 
 // Recipe Controllers
@@ -9,7 +9,7 @@ const router = express.Router();
 const {
   listRecipesController,
   RecipesDetailsController,
-  creatRecipesController,
+  createRecipesController,
   updateRecipesByIdController,
   deleteRecipesIdController,
   addIngredients,
@@ -35,10 +35,10 @@ const upload = multer({
 // Recipes Routes
 
 // Create a new Recipe
-router.post("/", upload.single("image"), creatRecipesController);
+router.post("/", upload.single("image"),passport.authenticate('jwt',{session: false}), createRecipesController);
 
 // Create a new Recipe with Ingredients
-router.post("/:RecipesId/ingredientId", addIngredients);
+router.post("/:RecipesId/ingredientId",passport.authenticate('jwt',{session: false}), addIngredients);
 
 // Retrieve all Recipes
 router.get("/", listRecipesController);
@@ -47,10 +47,10 @@ router.get("/", listRecipesController);
 router.get("/:RecipesId", RecipesDetailsController);
 
 // Update a Recipe by ID
-router.put("/:RecipesId", upload.single("image"), updateRecipesByIdController);
+router.put("/:RecipesId", upload.single("image"),passport.authenticate('jwt',{session: false}), updateRecipesByIdController);
 
 // Delete a Recipe by ID
-router.delete("/:RecipesId", deleteRecipesIdController);
+router.delete("/:RecipesId",passport.authenticate('jwt',{session: false}), deleteRecipesIdController);
 
 // ----------------------------------------------------------------
 
