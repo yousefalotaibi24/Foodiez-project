@@ -19,24 +19,19 @@ exports.createRecipesController = async (req, res) => {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`; //updated file to upload image
     }
-
     req.body.creator = req.user.id; // Add the logged in user's ID as creator
-    
-
-
     const ingredientIds = [];
-
     req.body.ingredients.forEach(async (ingredient) => {
-      const foundIngr = await Ingredient.findOne({ name: ingredient });
-      if (foundIngr) {
-        ingredientIds.push(foundIngr._id);
+      const foundIngredient= await Ingredient.findOne({ name: ingredient });
+      if (foundIngredient) {
+        ingredientIds.push(foundIngredient._id);
       } else {
         const newOne = await Ingredient.create({ name: ingredient });
         ingredientIds.push(newOne._id);
       }
     });
 
-    const newRecipes = creatNewRecipes({
+    const newRecipes = createNewRecipes({
       ...req.body,
       ingredients: ingredientIds,
     });
@@ -109,20 +104,20 @@ exports.updateRecipesByIdController = async (req, res) => {
     const ingredientIds = [];
 
     req.body.ingredient.forEach(async (element) => {
-      const foundIngr = await Ingredient.findOne({ name: element });
-      if (foundIngr) {
-        // if (foundIngr.recipe.includes(RecipesId)) {
+      const foundIngredient = await Ingredient.findOne({ name: element });
+      if (foundIngredient) {
+        // if (foundIngredient.recipe.includes(RecipesId)) {
 
-        ingredientIds.push(foundIngr._id);
-        await foundIngr.updateOne({ $push: { recipe: RecipesId } });
+        ingredientIds.push(foundIngredient._id);
+        await foundIngredient.updateOne({ $push: { recipe: RecipesId } });
         // }
       } else {
         const newOne = Ingredient({
           name: element,
           recipe: [RecipesId],
         });
-        const savedIngr = await newOne.save();
-        ingredientIds.push(savedIngr._id);
+        const savedIngredient= await newOne.save();
+        ingredientIds.push(savedIngredient._id);
       }
       return;
     });
